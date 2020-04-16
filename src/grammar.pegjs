@@ -61,18 +61,13 @@ _ "whitespace"
   Attempt 2
 
  
+
 arithmetic_expression
     = head:mult_term rest:(addop arithmetic_expression)*
         {
             return rest.reduce(
-                (result, [op, _, right]) => {
-                    if(op == "+") {
-                        return result + right
-                    }
-                    else {
-                        return result - right
-                    }
-                },
+                (result, [op, right]) => 
+                  new AST.BinOp(result, op, right),
                 head
             )
         }
@@ -80,20 +75,17 @@ mult_term
     = head:primary rest:(mulop mult_term)*
     {
         return rest.reduce(
-            (result, [op, _, right]) => {
-                    if(op == "*") 
-                    { return result * right }
-                    else 
-                    { return result / right }
-                },
-            head)
+            (result, [op, right]) => 
+            new AST.BinOp(result, op, right),
+            head
+            )
     }
 
 
 primary
   = "(" _ axp:arithmetic_expression _ ")" 
-  		{ return axp; } /
-   integer
+  		{ return axp; } 
+   / integer
 
 integer 
 	= digits

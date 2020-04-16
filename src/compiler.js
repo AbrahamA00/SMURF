@@ -28,6 +28,6 @@
 
 
 export default function compileAndRun(grammar, script, printFunction) {
-
-  return // ... the value returned by executing the SMURF script
+  let print = grammar.parse(script, options)
+  return printFunction(print)
 }
