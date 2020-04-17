@@ -28,6 +28,6 @@
 
 
 export default function compileAndRun(grammar, script, printFunction) {
-  let print = grammar.parse(script, options)
-  return printFunction(print)
+  let print = grammar.parse(script)
+  return print
 }
