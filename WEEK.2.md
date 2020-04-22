@@ -29,6 +29,22 @@ statement
   | assignment
   | expr
 
+``````````````````` DONE LINE ````````````````````
+//////////////////////////////// if/then/else /////////////////////////////
+
+if_expression
+  = expr brace_block "else" brace_block
+  | expr brace_block
+
+
+
+//////////////////////////////// assignment /////////////////////////////
+
+assignment
+  = variable_name "=" expr
+
+
+
 //////////////// variables & variable declaration /////////////////////////////
 
 variable_declaration
@@ -41,16 +57,24 @@ variable_value             // as rvalue
 variable_name              // as lvalue
   =  identifier
 
-//////////////////////////////// if/then/else /////////////////////////////
+//////////////////////////////// function call /////////////////////////////
 
-if_expression
-  = expr brace_block "else" brace_block
-  | expr brace_block
+function_call
+  = variable_value "(" ")"     // note: no parameters
 
-//////////////////////////////// assignment /////////////////////////////
+//////////////////////// function definition /////////////////////////////
 
-assignment
-  = variable_name "=" expr
+function_definition
+  = param_list brace_block
+
+param_list
+   = "(" ")"
+
+brace_block
+  = "{" code "}"
+
+
+
 
 //////////////////////////////// expression /////////////////////////////
 
@@ -59,7 +83,6 @@ expr
   | "if" _ if_expression
   | boolean_expression
   | arithmetic_expression
-
 
 /////////////////////// boolean expression /////////////////////////////
 
@@ -97,21 +120,7 @@ relop
   = '==' | '!=' | '>=' | '>' | '<=' | '<'
 
 
-//////////////////////////////// function call /////////////////////////////
 
-function_call
-  = variable_value "(" ")"     // note: no parameters
-
-//////////////////////// function definition /////////////////////////////
-
-function_definition
-  = param_list brace_block
-
-param_list
-   = "(" ")"
-
-brace_block
-  = "{" code "}"
 ~~~
 
 Your job is to:
