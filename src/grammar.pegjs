@@ -18,13 +18,13 @@
   function variableSet(variable_name, expr) {
     return new AST.variableSet(variable_name, expr)
   }
-  
-  function ifState(expr, if) {
-    return new AST.ifState(expr, if)
+
+  function ifState(expr, tif) {
+    return new AST.ifState(expr, tif)
   }
-  
-  function ifState(expr, if, else) {
-    return new AST.ifElseState(expr, if, else)
+
+  function ifState(expr, tif, telse) {
+    return new AST.ifElseState(expr, tif, telse)
   }
 }
 
@@ -34,14 +34,14 @@ start
 code = statement+
 
 statement
-  = "let" __ var:variable_declaration { return var }
+  = "let" __ v:variable_declaration { return v }
   / assignment
   / expr
 
 //////////////////////////////// if/then/else /////////////////////////////
 if_expression
-  = expr if:brace_block "else" else:brace_block { return ifState(expr, if, else) }
-  / expr if:brace_block { return ifState(expr, if)}
+  = expr:expr tif:brace_block "else" telse:brace_block { return ifState(expr, tif, telse) }
+  / expr:expr tif:brace_block { return ifState(expr, tif)}
 
 //////////////// variables & variable declaration /////////////////////////////
 
@@ -62,7 +62,7 @@ assignment
 
 function_call
   = variable_value "(" ")"
-    {return return new AST.functionCall(variable_value)}
+    {return new AST.functionCall(variable_value)}
 
 //////////////////////// function definition /////////////////////////////
 
@@ -74,14 +74,14 @@ param_list
    { return "()" }
 
 brace_block
-  = "{" code "}"
+  = "{" code:code "}"
     { return code }
 
 //////////////////////////////// expression /////////////////////////////
 
 expr
   = "fn" _ function_definition
-  # / "if" _ if_expression 
+  / "if" _ if_expression
   / boolean_expression
   / arithmetic_expression
 
