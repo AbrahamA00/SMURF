@@ -11,6 +11,12 @@ export default function loadGrammar() {
   let grammarFileName = path.join("./src/", "grammar.pegjs")
   let grammarSrc = fs.readFileSync(grammarFileName, "utf-8")
 
+  try {
     return pegjs.generate(grammarSrc, { trace: false })
+  }
+  catch (e) {
+    console.log(e.message)
+    process.exit(1)
+  }
 
 }
