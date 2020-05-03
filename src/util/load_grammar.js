@@ -12,10 +12,9 @@ export default function loadGrammar() {
   let grammarSrc = fs.readFileSync(grammarFileName, "utf-8")
 
   try {
-    return pegjs.generate(grammarSrc, { trace: true })
+    return pegjs.generate(grammarSrc, { trace: false })
   }
   catch (e) {
-    console.log(`In ${grammarFileName} line ${e.location.start.line} @ ${e.location.start.column}`)
     console.log(e.message)
     process.exit(1)
   }
