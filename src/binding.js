@@ -9,7 +9,7 @@ export default class Binding {
   }
 
   pop() {
-    return this.parentbinding.binding
+    return this.parent
   }
 
   getVariableValue(name) {
@@ -17,7 +17,7 @@ export default class Binding {
     if(this.binding.has(name))
       return this.binding.get(name)
     else
-      return this.parent.binding.get(name)
+      return this.parent.getVariableValue(name)
   }
 
 
@@ -29,14 +29,22 @@ export default class Binding {
 
   updateVariable(name, value) {
     this.checkVariableExists(name)
-    if(this.binding.has(name))
-      this.binding.set(name, value)
-    else
-      this.parent.binding.set(name,value)
+      if(this.binding.has(name))
+        this.binding.set(name, value)
+      else
+        this.parent.updateVariable(name, value)
   }
 
   checkVariableExists(name) {
-    if (!this.binding.has(name) && !this.parent.binding.has(name))
-      throw new Error(`Reference to unknown variable ${name}`)
+    if(this.parent)
+    {
+      if (!this.binding.has(name) && !this.parent.checkVariableExists(name))
+        throw new Error(`Reference to unknown variable ${name}`)
+    }
+    else{
+      if(!this.binding.has(name))
+        throw new Error(`Reference to unknown variable ${name}`)
+    }
+    return true;
   }
 }

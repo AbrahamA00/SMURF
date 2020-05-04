@@ -130,8 +130,18 @@ function_call
     { return new AST.FunctionCall(name, args) }
 
 call_arguments
-  = ''
+  = c1:expr _ rest:extra_calls*
+  {
+    rest.unshift(c1)
+    return rest
+  }
+  
+  / ''
     { return [] }
+
+  extra_calls
+  = "," _ expr:expr _
+  { return expr}
 
 //////////////////////////////// function definition /////////////////////////////
 
@@ -141,6 +151,15 @@ function_definition
 
 param_list
    = "(" _ ")" { return [] }
+   / "(" firstparam:variable_name _ rest: extra_params* _ ")"
+    {  
+      rest.unshift(firstparam)
+      return rest
+    }
+
+extra_params
+  = "," _ vName: variable_name _
+    {return vName}
 
 brace_block
   = "{" _ code:code _ "}" { return code }

@@ -18,7 +18,7 @@ const operations = {
 }
 
 import Binding from "../binding.js"
-import AST from "../ast"
+import * as AST from "../ast.js"
 
 export default class Interpreter {
 
@@ -47,7 +47,19 @@ export default class Interpreter {
 
   FunctionCall(node) {
     let thunk = node.name.accept(this)
-    return thunk.accept(this)
+    let value = node.args.map(mapping => mapping.accept(this))
+    if(value.length != thunk.formals.length)
+    {
+      throw new Error(`Incorrect number of Parameters for function call`)
+    }
+    let newBind = thunk.binding.push()
+    for(let i in value){
+      newBind.setVariable(thunk.formals[i].name, value[i])
+    }
+    this.binding = newBind
+    let result = thunk.code.accept(this)
+    this.binding = newBind.pop()
+    return result
   }
 
   FunctionDefinition(node) {
