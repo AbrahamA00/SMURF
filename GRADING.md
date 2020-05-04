@@ -2,6 +2,42 @@
 
 | Part           | Comments    | Points |
 |----------------|-------------|--------|
+| 00-test_values | All passed  |     65 |
+| 00-test_extras | 1 failed    |      8 |
+| Coding         |             |     25 |
+| **TOTAL**      |             |     98 |
+
+
+Torture test failures:
+
+The code failed a tricky test
+
+File: 09-test_random.js
+19: let a = 1
+20: let fn2
+21: let fn1 = fn(b) {
+22:   let a = 2+b
+23:   fn2 = fn (c) {
+24:     a = a + c
+25:   }
+26:   fn () {
+27:     a
+28:   }
+29: }
+30:
+31: let f = fn1(3) fn2(7) a
+
+The assignment on line 24 should have updated the variable on line 22,
+but actually changes the one on 19.
+
+
+
+
+
+# Week 2
+
+| Part           | Comments    | Points |
+|----------------|-------------|--------|
 | 00-test_values | None        |      0 |
 | 00-test_extras | None        |      0 |
 | Coding         |             |     15 |
