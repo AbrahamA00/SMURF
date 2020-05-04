@@ -1,3 +1,75 @@
+# Week 3
+
+| Part           | Comments    | Points |
+|----------------|-------------|--------|
+| provided tests | 1 failed    |     63 |
+| extras         | 2 failures  |      6 |
+| Coding         |             |     25 |
+| **TOTAL**      |             |     96 |
+
+
+### Test failures:
+
+  file:/test/08-test_closures.js:41
+
+  given: let inc = fn() {
+        let c = 0
+        fn() {
+          c = c+1
+        }
+      }
+      let inc1 = inc()
+      let inc2 = inc()
+      print(inc1(),inc1(),inc2(),inc1(),inc2())
+
+
+  Difference:
+
+    [
+      '1',
+  -   '1',
+  +   '2',
+      '1',
+  -   '1',
+  +   '3',
+  -   '1',
+  +   '2',
+    ]
+
+### Torture test failues:
+
+09-test_random › closure scope 2
+
+  src/visitors/interpreter.js:50
+
+   49:     let thunk = node.name.accept(this)
+   50:     let newBinding = thunk.binding.push()
+   51:     let args = node.args
+
+  Error thrown in test:
+
+  TypeError {
+    message: 'Cannot read property \'push\' of undefined',
+  }
+
+  Interpreter.FunctionCall (src/visitors/interpreter.js:50:36)
+
+  09-test_random › closure scope 3
+
+  src/visitors/interpreter.js:50
+
+   49:     let thunk = node.name.accept(this)
+   50:     let newBinding = thunk.binding.push()
+   51:     let args = node.args
+
+  Error thrown in test:
+
+  TypeError {
+    message: 'Cannot read property \'push\' of undefined',
+  }
+
+
+
 # Week 2
 
 | Part           | Comments    | Points |
